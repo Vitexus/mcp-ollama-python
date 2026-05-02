@@ -1,0 +1,156 @@
+mcp-ollama-python for Debian
+============================
+
+This is a Debian/Ubuntu package for mcp-ollama-python, a Model Context
+Protocol (MCP) server that exposes local Ollama models as tools for AI
+assistants.
+
+PREREQUISITES
+=============
+
+Before using mcp-ollama-python, ensure you have:
+
+1. Ollama installed and running (https://ollama.ai)
+   Start with: ollama serve
+
+2. At least one model installed in Ollama
+   Download with: ollama pull <model-name>
+   Example: ollama pull mistral
+
+INSTALLATION
+============
+
+After package installation, the following commands are available:
+
+  mcp-ollama-python      # Main MCP server
+  mcp-interactive        # Interactive testing interface
+  mcp-server-control     # Server control utility
+
+USAGE WITH AI ASSISTANTS
+=========================
+
+1. Claude Desktop Configuration
+   Edit ~/.config/Claude/claude_desktop_config.json:
+
+   {
+     "mcpServers": {
+       "ollama": {
+         "command": "mcp-ollama-python",
+         "env": {"OLLAMA_HOST": "http://localhost:11434"}
+       }
+     }
+   }
+
+2. VS Code / Windsurf Configuration
+   Edit your MCP configuration file:
+
+   {
+     "mcpServers": {
+       "ollama": {
+         "command": "mcp-ollama-python",
+         "env": {"OLLAMA_HOST": "http://localhost:11434"}
+       }
+     }
+   }
+
+INTERACTIVE TESTING
+===================
+
+Test the server and tools interactively:
+
+  mcp-interactive
+
+This opens an interactive console to test all available Ollama tools.
+
+SERVER CONTROL
+==============
+
+Manage the server process:
+
+  mcp-server-control start      # Start the server
+  mcp-server-control stop       # Stop the server
+  mcp-server-control status     # Check server status
+  mcp-server-control logs       # View server logs
+
+CONFIGURATION
+=============
+
+Configure behavior via environment variables:
+
+  OLLAMA_HOST
+    Ollama server URL (default: http://localhost:11434)
+    Example: OLLAMA_HOST=http://192.168.1.100:11434
+
+  OLLAMA_TIMEOUT
+    Request timeout in seconds (default: 30)
+    Example: OLLAMA_TIMEOUT=60
+
+  LOG_LEVEL
+    Logging level: DEBUG, INFO, WARNING, ERROR (default: INFO)
+    Example: LOG_LEVEL=DEBUG
+
+Export variables in your shell profile or systemd service to make them
+permanent:
+
+  export OLLAMA_HOST=http://localhost:11434
+  export LOG_LEVEL=DEBUG
+
+SYSTEMD SERVICE (Optional)
+==========================
+
+Create /etc/systemd/user/mcp-ollama.service:
+
+  [Unit]
+  Description=Ollama MCP Server
+  After=network.target
+  
+  [Service]
+  Type=simple
+  ExecStart=/usr/bin/mcp-ollama-python
+  Restart=on-failure
+  RestartSec=10
+  Environment="OLLAMA_HOST=http://localhost:11434"
+  
+  [Install]
+  WantedBy=default.target
+
+Then enable with:
+  systemctl --user enable mcp-ollama
+  systemctl --user start mcp-ollama
+
+LOG FILES
+=========
+
+Log output is sent to stderr by default. For persistent logging with
+systemd, view with:
+
+  journalctl --user -u mcp-ollama -f
+
+TROUBLESHOOTING
+===============
+
+Q: "Connection refused" errors
+A: Ensure Ollama is running with `ollama serve`
+
+Q: "Model not found" errors
+A: Pull a model first with `ollama pull <model-name>`
+
+Q: Server crashes on startup
+A: Check with `LOG_LEVEL=DEBUG` to see detailed errors
+
+Q: Slow responses
+A: Check OLLAMA_TIMEOUT setting; increase if needed
+
+DOCUMENTATION
+==============
+
+Full documentation: https://pblagoje.github.io/mcp-ollama-python/
+
+Source code: https://github.com/pblagoje/mcp-ollama-python
+
+SUPPORT
+=======
+
+For issues, feature requests, or questions:
+- GitHub Issues: https://github.com/pblagoje/mcp-ollama-python/issues
+- GitHub Discussions: https://github.com/pblagoje/mcp-ollama-python/discussions

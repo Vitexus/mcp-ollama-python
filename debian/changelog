@@ -1,0 +1,7 @@
+mcp-ollama-python (1.0.7) unstable; urgency=medium
+
+  * Initial Debian packaging for version 1.0.7
+  * Model Context Protocol server for local Ollama models
+  * Provides chat, generation, embeddings, and model management tools
+
+ -- Vítězslav Dvořák <info@vitexsoftware.cz>  Sat, 02 May 2026 19:28:55 +0200

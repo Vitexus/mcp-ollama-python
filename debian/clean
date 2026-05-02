@@ -1,0 +1,1 @@
+build/\ndist/\n*.egg-info/\n.pytest_cache/\n.ruff_cache/\n__pycache__/\n*.pyc

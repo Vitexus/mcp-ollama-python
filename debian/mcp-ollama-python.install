@@ -1,0 +1,3 @@
+# Python package files are automatically installed by pybuild
+# Entry points from pyproject.toml are automatically converted to /usr/bin/ scripts
+# by dh-python (mcp-ollama-python, mcp-interactive, mcp-server-control)

@@ -1,0 +1,28 @@
+mcp-ollama-python for Debian
+=============================
+
+Packaging Notes
+===============
+
+This package uses pyproject.toml for build configuration and pybuild-plugin-pyproject
+for building. The source format is 3.0 (native).
+
+Full source code and build information is available at:
+  https://github.com/pblagoje/mcp-ollama-python
+
+Building
+========
+
+The standard Debian build process applies:
+  dpkg-buildpackage -rfakeroot
+
+Or using gbp (git-buildpackage):
+  gbp buildpackage
+
+Dependencies
+============
+
+Build dependencies are defined in debian/control.
+
+Tests are run via autopkgtest (debian/tests/control):
+  python3 -m pytest tests/

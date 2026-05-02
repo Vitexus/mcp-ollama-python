@@ -1,0 +1,3 @@
+version=4
+https://github.com/pblagoje/mcp-ollama-python/releases
+.*/v([0-9.]+)\.tar\.gz
