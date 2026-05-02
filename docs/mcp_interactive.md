@@ -60,7 +60,7 @@ The project's dependencies are declared in `pyproject.toml`:
 - `pydantic >=2.7.0`
 - `rich >=13.7.0`
 - `mcp >=1.0.0`
-- `psutil >=7.1.3`
+- `psutil >=7.0.0`
 
 No `requirements.txt` is needed – Poetry takes care of resolving and pinning the exact versions.
 

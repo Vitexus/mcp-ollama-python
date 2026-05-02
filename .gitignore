@@ -182,3 +182,12 @@ cython_debug/
 /bin
 /tmp
 *.bak
+.pybuild/
+debian/.debhelper/
+debian/mcp-ollama-python/
+debian/debhelper-build-stamp
+debian/files
+debian/control
+debian/mcp-ollama-python.postinst.debhelper
+debian/mcp-ollama-python.substvars
+debian/mcp-ollama-python.prerm.debhelper
