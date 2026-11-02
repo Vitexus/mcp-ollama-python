@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="console-application">
+  <id>cz.vitexsoftware.mcp-ollama-python</id>
+  <metadata_license>MIT</metadata_license>
+  <project_license>MIT</project_license>
+  <name>Ollama MCP Server</name>
+  <summary>MCP server exposing local Ollama models as tools</summary>
+  <description>
+    <p>Ollama MCP Server exposes a local Ollama instance as a Model Context Protocol server, so AI clients can list, pull, run and chat with local models.</p>
+  </description>
+  <icon type="stock">cz.vitexsoftware.mcp-ollama-python</icon>
+  <pkgname>mcp-ollama-python</pkgname>
+  <provides>
+    <binary>mcp-ollama-python</binary>
+    <binary>mcp-interactive</binary>
+    <binary>mcp-server-control</binary>
+  </provides>
+  <categories>
+    <category>Network</category>
+    <category>System</category>
+  </categories>
+  <url type="homepage">https://github.com/pblagoje/mcp-ollama-python</url>
+  <developer id="cz.vitexsoftware">
+    <name>VitexSoftware</name>
+  </developer>
+  <releases>
+    <release version="1.0.9" date="2026-10-14"/>
+  </releases>
+  <content_rating type="oars-1.1"/>
+</component>
