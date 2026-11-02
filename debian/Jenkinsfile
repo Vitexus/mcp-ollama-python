@@ -5,7 +5,7 @@
 String[] distributions = [
 			'debian:bookworm', 
 			'debian:trixie', 
-			'debian:forky',
+			// 'debian:forky', // Disabled: Forky is still unstable; dependencies not yet available.
 			'ubuntu:jammy', 
 			'ubuntu:noble',
 			'ubuntu:resolute',
