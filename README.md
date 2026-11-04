@@ -4,7 +4,7 @@
 
 [![Python](https://img.shields.io/badge/Python-3.10+-blue)](https://python.org)
 [![Poetry](https://img.shields.io/badge/Poetry-1.0+-blue)](https://python-poetry.org)
-[![MCP](https://img.shields.io/badge/MCP-1.0-green)](https://github.com/anthropics/model-context-protocol)
+[![MCP](https://img.shields.io/badge/MCP-2.x-green)](https://github.com/modelcontextprotocol/python-sdk)
 [![PyPI](https://img.shields.io/pypi/v/mcp-ollama-python)](https://pypi.org/project/mcp-ollama-python/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
@@ -134,6 +134,11 @@ Type in your AI assistant's chat:
 Details: [docs/SECURITY.md](docs/SECURITY.md)
 
 ## Changelog
+
+### 1.1.0
+
+- Migrated to **MCP Python SDK 2.x** (`mcp>=2.0.0,<3.0.0`)
+- Low-level server handlers now use SDK 2 `on_*` constructor callbacks and snake_case types
 
 ### 1.0.8
 
