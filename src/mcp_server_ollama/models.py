@@ -154,6 +154,10 @@ class ToolDefinition(BaseModel):
 
     name: str = Field(description="Unique name of the tool")
     description: str = Field(description="Human-readable description of the tool")
+    title: Optional[str] = Field(default=None, description="Human-readable title")
+    annotations: Optional[Any] = Field(
+        default=None, description="mcp.types.ToolAnnotations with all four hints set"
+    )
     input_schema: Dict[str, Any] = Field(
         default_factory=lambda: {"type": "object", "properties": {}},
         description="JSON Schema defining the tool's input parameters",

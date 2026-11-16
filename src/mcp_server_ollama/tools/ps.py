@@ -4,6 +4,7 @@ Ollama ps (running models) tool
 
 import logging
 from typing import Dict, Any
+from ..annotations import READ_ONLY_ANNOTATIONS
 from ..models import ToolDefinition, ResponseFormat
 from ..ollama_client import OllamaClient
 from ..response_formatter import format_response
@@ -38,6 +39,8 @@ async def ps_handler(
 
 # Tool definition
 tool_definition = ToolDefinition(
+    title="List Running Models",
+    annotations=READ_ONLY_ANNOTATIONS,
     name="ollama_ps",
     description="List all currently running/loaded models in Ollama, showing memory usage and runtime information.",
     input_schema={

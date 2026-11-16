@@ -49,6 +49,11 @@
             "true",
             "false"
           ]
+        },
+        {
+          "name": "OLLAMA_READ_ONLY",
+          "description": "Register only read-only tools (no pull, delete, execute)",
+          "default": "false"
         }
       ]
     }
@@ -65,6 +70,13 @@
           {
             "name": "ollama_chat",
             "description": "Interactive chat with Ollama models. Supports multi-turn conversations, tool calling, and structured outputs.",
+            "title": "Chat With Model",
+            "annotations": {
+              "destructiveHint": false,
+              "idempotentHint": true,
+              "openWorldHint": true,
+              "readOnlyHint": true
+            },
             "inputSchema": {
               "properties": {
                 "model": {
@@ -183,7 +195,14 @@
           },
           {
             "name": "ollama_delete",
-            "description": "Remove models from local Ollama storage to free up disk space.",
+            "description": "Remove models from local Ollama storage to free up disk space. Destructive: the model must be pulled again to restore it.",
+            "title": "Delete Model",
+            "annotations": {
+              "destructiveHint": true,
+              "idempotentHint": true,
+              "openWorldHint": true,
+              "readOnlyHint": false
+            },
             "inputSchema": {
               "properties": {
                 "model": {
@@ -209,6 +228,13 @@
           {
             "name": "ollama_embed",
             "description": "Generate vector embeddings for text using Ollama's embedding models like nomic-embed-text.",
+            "title": "Create Embeddings",
+            "annotations": {
+              "destructiveHint": false,
+              "idempotentHint": true,
+              "openWorldHint": true,
+              "readOnlyHint": true
+            },
             "inputSchema": {
               "properties": {
                 "model": {
@@ -250,7 +276,14 @@
           },
           {
             "name": "ollama_execute",
-            "description": "Execute code locally (opt-in: set OLLAMA_EXECUTE_ENABLED=1). Supports Python, JavaScript, TypeScript, Ruby, PHP, and Go. Shell/bash is not supported.",
+            "description": "Execute code locally (opt-in: set OLLAMA_EXECUTE_ENABLED=1). Supports Python, JavaScript, TypeScript, Ruby, PHP, and Go. Shell/bash is not supported. Runs arbitrary code: user confirmation is expected.",
+            "title": "Execute Code",
+            "annotations": {
+              "destructiveHint": true,
+              "idempotentHint": false,
+              "openWorldHint": true,
+              "readOnlyHint": false
+            },
             "inputSchema": {
               "properties": {
                 "code": {
@@ -301,6 +334,13 @@
           {
             "name": "ollama_generate",
             "description": "Generate text completions using Ollama models with configurable parameters.",
+            "title": "Generate Text",
+            "annotations": {
+              "destructiveHint": false,
+              "idempotentHint": true,
+              "openWorldHint": true,
+              "readOnlyHint": true
+            },
             "inputSchema": {
               "properties": {
                 "model": {
@@ -368,6 +408,13 @@
           {
             "name": "ollama_list",
             "description": "List all available Ollama models installed locally. Returns model names, sizes, and modification dates.",
+            "title": "List Models",
+            "annotations": {
+              "destructiveHint": false,
+              "idempotentHint": true,
+              "openWorldHint": true,
+              "readOnlyHint": true
+            },
             "inputSchema": {
               "properties": {
                 "format": {
@@ -386,6 +433,13 @@
           {
             "name": "ollama_ps",
             "description": "List all currently running/loaded models in Ollama, showing memory usage and runtime information.",
+            "title": "List Running Models",
+            "annotations": {
+              "destructiveHint": false,
+              "idempotentHint": true,
+              "openWorldHint": true,
+              "readOnlyHint": true
+            },
             "inputSchema": {
               "properties": {
                 "format": {
@@ -404,6 +458,13 @@
           {
             "name": "ollama_pull",
             "description": "Download and install models from the Ollama library to your local machine.",
+            "title": "Pull Model",
+            "annotations": {
+              "destructiveHint": false,
+              "idempotentHint": true,
+              "openWorldHint": true,
+              "readOnlyHint": false
+            },
             "inputSchema": {
               "properties": {
                 "model": {
@@ -429,6 +490,13 @@
           {
             "name": "ollama_show",
             "description": "Get detailed information about a specific Ollama model including size, parameters, and capabilities.",
+            "title": "Show Model Details",
+            "annotations": {
+              "destructiveHint": false,
+              "idempotentHint": true,
+              "openWorldHint": true,
+              "readOnlyHint": true
+            },
             "inputSchema": {
               "properties": {
                 "model": {

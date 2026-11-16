@@ -4,6 +4,7 @@ Ollama list models tool
 
 import logging
 from typing import Dict, Any
+from ..annotations import READ_ONLY_ANNOTATIONS
 from ..models import ToolDefinition, ResponseFormat
 from ..ollama_client import OllamaClient
 from ..response_formatter import format_response
@@ -38,6 +39,8 @@ async def list_models_handler(
 
 # Tool definition
 tool_definition = ToolDefinition(
+    title="List Models",
+    annotations=READ_ONLY_ANNOTATIONS,
     name="ollama_list",
     description="List all available Ollama models installed locally. Returns model names, sizes, and modification dates.",
     input_schema={

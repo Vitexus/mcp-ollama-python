@@ -4,6 +4,7 @@ Ollama generate text tool
 
 import logging
 from typing import Dict, Any, Optional
+from ..annotations import READ_ONLY_ANNOTATIONS
 from ..models import (
     ToolDefinition,
     ResponseFormat,
@@ -76,6 +77,8 @@ async def generate_handler(
 
 # Tool definition
 tool_definition = ToolDefinition(
+    title="Generate Text",
+    annotations=READ_ONLY_ANNOTATIONS,
     name="ollama_generate",
     description="Generate text completions using Ollama models with configurable parameters.",
     input_schema={

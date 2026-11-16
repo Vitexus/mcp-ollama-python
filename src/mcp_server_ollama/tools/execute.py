@@ -11,6 +11,7 @@ import sys
 import tempfile
 from typing import Any, Dict, List
 
+from ..annotations import EXECUTE_ANNOTATIONS
 from ..models import ToolDefinition, ResponseFormat
 from ..ollama_client import OllamaClient
 from ..response_formatter import format_response
@@ -199,11 +200,13 @@ def _get_execution_command(language: str, file_path: str) -> List[str]:
 
 # Tool definition — only registered when OLLAMA_EXECUTE_ENABLED=1 (see autoloader)
 tool_definition = ToolDefinition(
+    title="Execute Code",
+    annotations=EXECUTE_ANNOTATIONS,
     name="ollama_execute",
     description=(
         "Execute code locally (opt-in: set OLLAMA_EXECUTE_ENABLED=1). "
         "Supports Python, JavaScript, TypeScript, Ruby, PHP, and Go. "
-        "Shell/bash is not supported."
+        "Shell/bash is not supported. Runs arbitrary code: user confirmation is expected."
     ),
     input_schema={
         "type": "object",

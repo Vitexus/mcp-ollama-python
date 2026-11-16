@@ -10,6 +10,7 @@ case "$1" in
           --transport stdio \
           --command /usr/bin/mcp-server-ollama \
           --category debian \
+          --set-env OLLAMA_READ_ONLY=true \
           --enabled" || true
     fi
     ;;

@@ -176,6 +176,8 @@ async def main() -> None:
             tools = [
                 Tool(
                     name=tool_data["name"],
+                    title=tool_data.get("title"),
+                    annotations=tool_data.get("annotations"),
                     description=tool_data["description"],
                     input_schema=tool_data["inputSchema"],
                 )

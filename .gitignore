@@ -184,3 +184,14 @@ cython_debug/
 *.bak
 AGENTS.md
 CLAUDE.md
+
+# Debian build artefacts
+.pybuild/
+debian/.debhelper/
+debian/debhelper-build-stamp
+debian/files
+debian/*.substvars
+debian/*.debhelper
+debian/*.debhelper.log
+debian/mcp-server-ollama/
+debian/mcprack-mcp-server-ollama/

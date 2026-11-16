@@ -1,4 +1,4 @@
 #!/bin/sh
 # DEP-8 smoke test: spawn the installed binary, do the MCP handshake and list tools.
 set -e
-mcprack server probe /usr/bin/mcp-server-ollama
+mcprack server probe /usr/bin/mcp-server-ollama --set-env OLLAMA_READ_ONLY=true

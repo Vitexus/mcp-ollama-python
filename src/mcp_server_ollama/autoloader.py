@@ -11,11 +11,11 @@ from typing import Any, Callable, Dict, List, Optional
 try:
     from mcp_server_ollama.ollama_client import OllamaClient
     from mcp_server_ollama.models import ToolDefinition, ResponseFormat
-    from mcp_server_ollama.security import is_execute_enabled
+    from mcp_server_ollama.security import is_execute_enabled, is_read_only
 except ImportError:
     from .ollama_client import OllamaClient
     from .models import ToolDefinition, ResponseFormat
-    from .security import is_execute_enabled
+    from .security import is_execute_enabled, is_read_only
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -167,6 +167,14 @@ async def discover_tools_with_handlers() -> ToolRegistry:
                     )
                     failed_count += 1
                     continue
+
+            if (
+                isinstance(tool_def, ToolDefinition)
+                and is_read_only()
+                and not (tool_def.annotations and tool_def.annotations.read_only_hint)
+            ):
+                logger.info("Skipping %s (OLLAMA_READ_ONLY is set)", tool_def.name)
+                continue
 
             if isinstance(tool_def, ToolDefinition):
                 # Find the handler function (should end with _handler)

@@ -113,6 +113,27 @@ Type in your AI assistant's chat:
 
 > **MCP Tool: ollama / ollama_chat** — Use model llama3.1 and explain quantum computing
 
+## Configuration
+
+| Variable | Secret | Default | Meaning |
+|---|---|---|---|
+| `OLLAMA_HOST` | no | `http://127.0.0.1:11434` | Ollama server URL (loopback only unless `OLLAMA_ALLOW_REMOTE_HOST`) |
+| `OLLAMA_API_KEY` | **yes** | — | API key for a remote or cloud Ollama endpoint |
+| `OLLAMA_MODELS` | no | — | Models directory |
+| `OLLAMA_EXECUTE_ENABLED` | no | `false` | Expose the `ollama_execute` tool (runs code locally) |
+| `OLLAMA_ALLOW_REMOTE_HOST` | no | `false` | Allow a non-loopback `OLLAMA_HOST` |
+| `OLLAMA_READ_ONLY` | no | `false` | Register only read-only tools (no `ollama_pull`, `ollama_delete`, `ollama_execute`). The mcprack companion package sets it to `true`. |
+
+## Tools
+
+| Tool | Annotation class |
+|---|---|
+| `ollama_list`, `ollama_show`, `ollama_ps` | READ_ONLY |
+| `ollama_generate`, `ollama_chat`, `ollama_embed` | READ_ONLY (inference, no persistent change) |
+| `ollama_pull` | ASSIGN (idempotent download) |
+| `ollama_delete` | MUTATE (destructive) |
+| `ollama_execute` | destructive, opt-in, user confirmation expected |
+
 ## Key Features
 
 - 🔧 **8 MCP tools** — Full Ollama SDK access

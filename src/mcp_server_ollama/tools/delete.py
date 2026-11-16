@@ -4,6 +4,7 @@ Ollama delete model tool
 
 import logging
 from typing import Dict, Any
+from ..annotations import MUTATE_ANNOTATIONS
 from ..models import ToolDefinition, ResponseFormat, ModelNotFoundError
 from ..ollama_client import OllamaClient
 from ..response_formatter import format_response
@@ -54,8 +55,10 @@ async def delete_handler(
 
 # Tool definition
 tool_definition = ToolDefinition(
+    title="Delete Model",
+    annotations=MUTATE_ANNOTATIONS,
     name="ollama_delete",
-    description="Remove models from local Ollama storage to free up disk space.",
+    description="Remove models from local Ollama storage to free up disk space. Destructive: the model must be pulled again to restore it.",
     input_schema={
         "type": "object",
         "properties": {

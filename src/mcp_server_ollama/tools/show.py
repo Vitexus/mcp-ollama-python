@@ -8,6 +8,7 @@ metadata and formats the response according to the requested format (JSON or Mar
 
 import logging
 from typing import Dict, Any
+from ..annotations import READ_ONLY_ANNOTATIONS
 from ..models import ToolDefinition, ResponseFormat, ModelNotFoundError
 from ..ollama_client import OllamaClient
 from ..response_formatter import format_response
@@ -58,6 +59,8 @@ async def show_model_handler(
 
 # Tool definition
 tool_definition = ToolDefinition(
+    title="Show Model Details",
+    annotations=READ_ONLY_ANNOTATIONS,
     name="ollama_show",
     description="Get detailed information about a specific Ollama model including size, parameters, and capabilities.",
     input_schema={

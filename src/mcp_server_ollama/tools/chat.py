@@ -4,6 +4,7 @@ Ollama chat tool
 
 import logging
 from typing import Dict, Any, List, Optional
+from ..annotations import READ_ONLY_ANNOTATIONS
 from ..models import (
     ToolDefinition,
     ResponseFormat,
@@ -120,6 +121,8 @@ async def chat_handler(
 
 # Tool definition
 tool_definition = ToolDefinition(
+    title="Chat With Model",
+    annotations=READ_ONLY_ANNOTATIONS,
     name="ollama_chat",
     description="Interactive chat with Ollama models. Supports multi-turn conversations, tool calling, and structured outputs.",
     input_schema={

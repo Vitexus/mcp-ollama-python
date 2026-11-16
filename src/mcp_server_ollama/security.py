@@ -17,6 +17,7 @@ ALLOWED_ENV_VARS = frozenset(
         "OLLAMA_MODELS",
         "OLLAMA_EXECUTE_ENABLED",
         "OLLAMA_ALLOW_REMOTE_HOST",
+        "OLLAMA_READ_ONLY",
     }
 )
 
@@ -46,6 +47,11 @@ def is_truthy_env(name: str) -> bool:
 def is_execute_enabled() -> bool:
     """Code execution via ollama_execute is opt-in only."""
     return is_truthy_env("OLLAMA_EXECUTE_ENABLED")
+
+
+def is_read_only() -> bool:
+    """When true, tools that change state (pull, delete, execute) are not registered."""
+    return is_truthy_env("OLLAMA_READ_ONLY")
 
 
 def is_remote_host_allowed() -> bool:

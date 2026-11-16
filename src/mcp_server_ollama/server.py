@@ -75,6 +75,8 @@ class OllamaMCPServer:
                 "tools": [
                     {
                         "name": tool.name,
+                        "title": tool.title,
+                        "annotations": tool.annotations,
                         "description": tool.description,
                         "inputSchema": tool.input_schema,
                     }

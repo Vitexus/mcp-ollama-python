@@ -4,6 +4,7 @@ Ollama embed tool
 
 import logging
 from typing import Dict, Any
+from ..annotations import READ_ONLY_ANNOTATIONS
 from ..models import ToolDefinition, ResponseFormat, ModelNotFoundError
 from ..security import MAX_EMBED_INPUTS, MAX_EMBED_TEXT_LEN, validate_model_name
 from ..ollama_client import OllamaClient
@@ -76,6 +77,8 @@ async def embed_handler(
 
 # Tool definition
 tool_definition = ToolDefinition(
+    title="Create Embeddings",
+    annotations=READ_ONLY_ANNOTATIONS,
     name="ollama_embed",
     description="Generate vector embeddings for text using Ollama's embedding models like nomic-embed-text.",
     input_schema={

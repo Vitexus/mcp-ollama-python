@@ -4,6 +4,7 @@ Ollama pull model tool
 
 import logging
 from typing import Dict, Any
+from ..annotations import ASSIGN_ANNOTATIONS
 from ..models import ToolDefinition, ResponseFormat
 from ..ollama_client import OllamaClient
 from ..response_formatter import format_response
@@ -47,6 +48,8 @@ async def pull_handler(
 
 # Tool definition
 tool_definition = ToolDefinition(
+    title="Pull Model",
+    annotations=ASSIGN_ANNOTATIONS,
     name="ollama_pull",
     description="Download and install models from the Ollama library to your local machine.",
     input_schema={
