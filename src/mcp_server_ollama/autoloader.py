@@ -9,9 +9,9 @@ import pkgutil
 from typing import Any, Callable, Dict, List, Optional
 
 try:
-    from mcp_ollama_python.ollama_client import OllamaClient
-    from mcp_ollama_python.models import ToolDefinition, ResponseFormat
-    from mcp_ollama_python.security import is_execute_enabled
+    from mcp_server_ollama.ollama_client import OllamaClient
+    from mcp_server_ollama.models import ToolDefinition, ResponseFormat
+    from mcp_server_ollama.security import is_execute_enabled
 except ImportError:
     from .ollama_client import OllamaClient
     from .models import ToolDefinition, ResponseFormat
@@ -108,7 +108,7 @@ async def discover_tools_with_handlers() -> ToolRegistry:
 
     try:
         # Get the tools package path
-        tools_package = importlib.import_module(".tools", package="mcp_ollama_python")
+        tools_package = importlib.import_module(".tools", package="mcp_server_ollama")
         logger.debug("Tools package imported successfully")
     except ImportError as e:
         logger.error("Failed to import tools package: %s", e)
@@ -142,7 +142,7 @@ async def discover_tools_with_handlers() -> ToolRegistry:
             # Import the module
             logger.debug("Importing tool module: %s", module_name)
             module = importlib.import_module(
-                f".tools.{module_name}", package="mcp_ollama_python"
+                f".tools.{module_name}", package="mcp_server_ollama"
             )
 
             # Check if module exports tool_definition

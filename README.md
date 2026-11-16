@@ -5,7 +5,7 @@
 [![Python](https://img.shields.io/badge/Python-3.10+-blue)](https://python.org)
 [![Poetry](https://img.shields.io/badge/Poetry-1.0+-blue)](https://python-poetry.org)
 [![MCP](https://img.shields.io/badge/MCP-2.x-green)](https://github.com/modelcontextprotocol/python-sdk)
-[![PyPI](https://img.shields.io/pypi/v/mcp-ollama-python)](https://pypi.org/project/mcp-ollama-python/)
+[![PyPI](https://img.shields.io/pypi/v/mcp-server-ollama)](https://pypi.org/project/mcp-server-ollama/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 A Python [MCP](https://github.com/anthropics/model-context-protocol) server that exposes your local [Ollama](https://ollama.ai) models as tools for AI assistants like **Windsurf**, **VS Code**, **Claude Desktop**, and more.
@@ -13,7 +13,7 @@ A Python [MCP](https://github.com/anthropics/model-context-protocol) server that
 | | Links |
 |---|---|
 | **Docs** | [Full documentation](https://pblagoje.github.io/mcp-ollama-python/) |
-| **PyPI** | [mcp-ollama-python](https://pypi.org/project/mcp-ollama-python/) |
+| **PyPI** | [mcp-server-ollama](https://pypi.org/project/mcp-server-ollama/) |
 | **VS Code UI** | Companion extension: [mcp-ollama-extension](https://github.com/pblagoje/mcp-ollama-extension) · [docs](https://pblagoje.github.io/mcp-ollama-extension/) · [Marketplace](https://marketplace.visualstudio.com/items?itemName=internetics.mcp-ollama-extension) |
 
 ---
@@ -30,9 +30,9 @@ These two repositories work together:
 └─────────────────┬───────────────────┘
                   │ stdio / MCP
 ┌─────────────────▼───────────────────┐
-│  mcp-ollama-python (this repo)      │  ← MCP tools for Ollama
+│  mcp-server-ollama (this repo)      │  ← MCP tools for Ollama
 │  https://github.com/pblagoje/       │
-│       mcp-ollama-python             │
+│       mcp-server-ollama             │
 └─────────────────┬───────────────────┘
                   │ HTTP :11434
 ┌─────────────────▼───────────────────┐
@@ -40,7 +40,7 @@ These two repositories work together:
 └─────────────────────────────────────┘
 ```
 
-- **This package** is the MCP server (required). Install with `pip install mcp-ollama-python`.
+- **This package** is the MCP server (required). Install with `pip install mcp-server-ollama`.
 - **[MCP Ollama Manager](https://github.com/pblagoje/mcp-ollama-extension)** is the optional VS Code UI to manage that server. Prefer it if you use VS Code and want status bar controls, model sidebar, and log viewing without editing JSON by hand.
 
 You can also wire this server into any MCP client (Windsurf, Cursor, Claude Desktop, etc.) without the extension — see [Quick Start](#quick-start) below.
@@ -67,13 +67,24 @@ Connect your local LLMs to any MCP-compatible AI assistant. No cloud APIs needed
 **Prerequisites:** Python 3.10+, [Ollama](https://ollama.ai) running locally
 
 ```bash
-pip install mcp-ollama-python
+pip install mcp-server-ollama
 ```
+
+**Debian/Ubuntu:**
+
+```bash
+sudo apt install mcp-server-ollama            # the server, /usr/bin/mcp-server-ollama
+sudo apt install mcprack-mcp-server-ollama    # optional: registers it in the local mcprack catalog
+```
+
+> **Renamed:** this project was formerly `mcp-ollama-python`. The Debian package declares
+> `Provides/Replaces/Breaks` for the old name and keeps `/usr/bin/mcp-ollama-python` as a
+> compatibility symlink. The Python module is now `mcp_server_ollama` (was `mcp_ollama_python`).
 
 ### Option A — VS Code with the companion extension (recommended for VS Code)
 
 1. Install [MCP Ollama Manager](https://marketplace.visualstudio.com/items?itemName=internetics.mcp-ollama-extension) from the Marketplace
-2. Ensure `mcp-ollama-python` is installed (the extension can offer **Install Now** if missing)
+2. Ensure `mcp-server-ollama` is installed (the extension can offer **Install Now** if missing)
 3. Command Palette → **MCP Ollama: Configure Server** → **MCP Ollama: Start Server**
 
 Details: [extension docs](https://pblagoje.github.io/mcp-ollama-extension/) · [repo](https://github.com/pblagoje/mcp-ollama-extension)
@@ -87,7 +98,7 @@ Add to your MCP config (e.g. `mcp_config.json`):
   "mcpServers": {
     "ollama": {
       "command": "py",
-      "args": ["-m", "mcp_ollama_python"],
+      "args": ["-m", "mcp_server_ollama"],
       "disabled": false
     }
   }

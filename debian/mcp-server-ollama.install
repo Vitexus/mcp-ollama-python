@@ -1,0 +1,3 @@
+debian/cz.vitexsoftware.mcp-server-ollama.metainfo.xml usr/share/metainfo/
+debian/cz.vitexsoftware.mcp-server-ollama.svg usr/share/icons/hicolor/scalable/apps/
+server.json usr/share/mcp-server-ollama/

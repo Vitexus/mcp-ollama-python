@@ -7,7 +7,7 @@ A Python implementation of the [Model Context Protocol](https://github.com/anthr
 | Resource | Link |
 |----------|------|
 | GitHub | [pblagoje/mcp-ollama-python](https://github.com/pblagoje/mcp-ollama-python) |
-| PyPI | [mcp-ollama-python](https://pypi.org/project/mcp-ollama-python/) |
+| PyPI | [mcp-server-ollama](https://pypi.org/project/mcp-server-ollama/) |
 | Companion VS Code extension | [mcp-ollama-extension](https://github.com/pblagoje/mcp-ollama-extension) · [extension docs](https://pblagoje.github.io/mcp-ollama-extension/) · [Marketplace](https://marketplace.visualstudio.com/items?itemName=internetics.mcp-ollama-extension) |
 
 ---
@@ -20,7 +20,7 @@ VS Code extension (optional UI)
         │  stdio / MCP
         ▼
 MCP server (this project)
-  mcp-ollama-python
+  mcp-server-ollama
         │  HTTP :11434
         ▼
 Ollama

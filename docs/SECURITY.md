@@ -1,6 +1,6 @@
 # Security
 
-This document describes the threat model and security controls for **mcp-ollama-python**.
+This document describes the threat model and security controls for **mcp-server-ollama**.
 
 ## Trust model
 
@@ -18,7 +18,7 @@ The server talks to **Ollama** over HTTP. By default it only connects to loopbac
 | `ollama_execute` | **Disabled by default**; set `OLLAMA_EXECUTE_ENABLED=1` to register the tool; shell/bash removed; 64 KiB code limit; 30s timeout; minimal subprocess environment; runs in a temp directory |
 | Chat/embed input | Message count, content length, and embed batch sizes capped |
 | Interactive manager | Environment variable keys allowlisted; `OLLAMA_HOST` re-validated on save/load |
-| Data directory | `~/.mcp-ollama-python/` created with restrictive permissions for PID/logs/config files |
+| Data directory | `~/.mcp-server-ollama/` created with restrictive permissions for PID/logs/config files |
 
 ## Environment variables
 
@@ -30,7 +30,7 @@ The server talks to **Ollama** over HTTP. By default it only connects to loopbac
 | `OLLAMA_API_KEY` | unset | Bearer token for authenticated Ollama endpoints |
 | `OLLAMA_MODELS` | unset | Custom models directory (passed through to Ollama) |
 
-Only the variables above may be stored via **mcp-interactive** (`~/.mcp-ollama-python/tmp/.mcp_env_vars.json`).
+Only the variables above may be stored via **mcp-interactive** (`~/.mcp-server-ollama/tmp/.mcp_env_vars.json`).
 
 ## Risky operations
 

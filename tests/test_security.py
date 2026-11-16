@@ -4,7 +4,7 @@ import os
 
 import pytest
 
-from mcp_ollama_python.security import (
+from mcp_server_ollama.security import (
     ALLOWED_ENV_VARS,
     is_execute_enabled,
     validate_code_payload,

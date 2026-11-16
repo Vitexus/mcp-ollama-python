@@ -1,6 +1,6 @@
 # -*- mode: python ; coding: utf-8 -*-
-# from terminal/cli, run: poetry shell & pyinstaller mcp-ollama-python.spec --clean --distpath bin
-# or from poetry, run: poetry run pyinstaller mcp-ollama-python.spec --clean --distpath bin
+# from terminal/cli, run: poetry shell & pyinstaller mcp-server-ollama.spec --clean --distpath bin
+# or from poetry, run: poetry run pyinstaller mcp-server-ollama.spec --clean --distpath bin
 
 import os
 import platform
@@ -54,8 +54,8 @@ _version_info = VSVersionInfo(
                         StringStruct("CompanyName", "Pedja Blagojevic"),
                         StringStruct("FileDescription", "MCP Ollama Python Server"),
                         StringStruct("FileVersion", _version_str),
-                        StringStruct("InternalName", "mcp-ollama-python"),
-                        StringStruct("OriginalFilename", "mcp-ollama-python.exe"),
+                        StringStruct("InternalName", "mcp-server-ollama"),
+                        StringStruct("OriginalFilename", "mcp-server-ollama.exe"),
                         StringStruct("ProductName", "MCP Ollama Python"),
                         StringStruct("ProductVersion", _version_str),
                     ],
@@ -85,12 +85,12 @@ if not _os_tag:
     else:
         _os_tag = "linux"
 
-_exe_name = f"mcp-ollama-python-{_version_str}-{_os_tag}-{_arch}"
+_exe_name = f"mcp-server-ollama-{_version_str}-{_os_tag}-{_arch}"
 
 block_cipher = None
 
 a = Analysis(
-    ['src/mcp_ollama_python/main.py'],
+    ['src/mcp_server_ollama/main.py'],
     pathex=['src'],
     binaries=[],
     datas=[],
@@ -127,21 +127,21 @@ a = Analysis(
         'json',
         'jsonschema',
         # Internal modules
-        'mcp_ollama_python',
-        'mcp_ollama_python.server',
-        'mcp_ollama_python.ollama_client',
-        'mcp_ollama_python.models',
-        'mcp_ollama_python.response_formatter',
-        'mcp_ollama_python.autoloader',
-        'mcp_ollama_python.tools',
-        'mcp_ollama_python.tools.chat',
-        'mcp_ollama_python.tools.delete',
-        'mcp_ollama_python.tools.embed',
-        'mcp_ollama_python.tools.generate',
-        'mcp_ollama_python.tools.list',
-        'mcp_ollama_python.tools.ps',
-        'mcp_ollama_python.tools.pull',
-        'mcp_ollama_python.tools.show',
+        'mcp_server_ollama',
+        'mcp_server_ollama.server',
+        'mcp_server_ollama.ollama_client',
+        'mcp_server_ollama.models',
+        'mcp_server_ollama.response_formatter',
+        'mcp_server_ollama.autoloader',
+        'mcp_server_ollama.tools',
+        'mcp_server_ollama.tools.chat',
+        'mcp_server_ollama.tools.delete',
+        'mcp_server_ollama.tools.embed',
+        'mcp_server_ollama.tools.generate',
+        'mcp_server_ollama.tools.list',
+        'mcp_server_ollama.tools.ps',
+        'mcp_server_ollama.tools.pull',
+        'mcp_server_ollama.tools.show',
         # Async support
         'anyio',
         'anyio._backends',

@@ -7,7 +7,7 @@ Test script to demonstrate new MCP Ollama capabilities:
 
 import asyncio
 
-from src.mcp_ollama_python.server import OllamaMCPServer
+from src.mcp_server_ollama.server import OllamaMCPServer
 
 
 async def test_resources():

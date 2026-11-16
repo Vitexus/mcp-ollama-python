@@ -1,5 +1,5 @@
 """
-Package initialization for mcp_ollama_python.
+Package initialization for mcp_server_ollama.
 
 This module provides the main entry point and package-level exports.
 """

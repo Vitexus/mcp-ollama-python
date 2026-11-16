@@ -7,7 +7,7 @@ import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 import httpx
 
-from mcp_ollama_python.models import ChatMessage, GenerationOptions, MessageRole, NetworkError
+from mcp_server_ollama.models import ChatMessage, GenerationOptions, MessageRole, NetworkError
 
 
 class TestOllamaClientInit:
@@ -17,7 +17,7 @@ class TestOllamaClientInit:
         """Test default initialization uses environment or defaults"""
         with patch.dict(os.environ, {}, clear=True):
             with patch('httpx.AsyncClient') as mock_client:
-                from mcp_ollama_python.ollama_client import OllamaClient
+                from mcp_server_ollama.ollama_client import OllamaClient
                 client = OllamaClient()
                 assert client.host == "http://127.0.0.1:11434"
                 assert client.api_key is None
@@ -26,7 +26,7 @@ class TestOllamaClientInit:
         """Test initialization with custom host when remote is allowed"""
         monkeypatch.setenv("OLLAMA_ALLOW_REMOTE_HOST", "1")
         with patch('httpx.AsyncClient') as mock_client:
-            from mcp_ollama_python.ollama_client import OllamaClient
+            from mcp_server_ollama.ollama_client import OllamaClient
             client = OllamaClient(host="http://custom:8080")
             assert client.host == "http://custom:8080"
 
@@ -36,7 +36,7 @@ class TestOllamaClientInit:
         monkeypatch.delenv("OLLAMA_ALLOW_REMOTE_HOST", raising=False)
         with patch('httpx.AsyncClient') as mock_client:
             import importlib
-            from mcp_ollama_python import ollama_client
+            from mcp_server_ollama import ollama_client
             importlib.reload(ollama_client)
             client = ollama_client.OllamaClient()
             assert client.host == "http://127.0.0.1:11434"
@@ -44,7 +44,7 @@ class TestOllamaClientInit:
     def test_api_key_in_headers(self):
         """Test API key is added to headers"""
         with patch('httpx.AsyncClient') as mock_client:
-            from mcp_ollama_python.ollama_client import OllamaClient
+            from mcp_server_ollama.ollama_client import OllamaClient
             client = OllamaClient(api_key="test-key")
             assert client.api_key == "test-key"
             # Check that AsyncClient was called with headers containing auth
@@ -63,7 +63,7 @@ class TestOllamaClientContextManager:
             mock_client = AsyncMock()
             mock_client_class.return_value = mock_client
 
-            from mcp_ollama_python.ollama_client import OllamaClient
+            from mcp_server_ollama.ollama_client import OllamaClient
             async with OllamaClient() as client:
                 pass
 
@@ -85,7 +85,7 @@ class TestOllamaClientPost:
             mock_client.post = AsyncMock(return_value=mock_response)
             mock_client_class.return_value = mock_client
 
-            from mcp_ollama_python.ollama_client import OllamaClient
+            from mcp_server_ollama.ollama_client import OllamaClient
             client = OllamaClient()
             result = await client._post("/api/test", {"key": "value"})
 
@@ -107,7 +107,7 @@ class TestOllamaClientPost:
             mock_client.post = AsyncMock(return_value=mock_response)
             mock_client_class.return_value = mock_client
 
-            from mcp_ollama_python.ollama_client import OllamaClient
+            from mcp_server_ollama.ollama_client import OllamaClient
             client = OllamaClient()
 
             with pytest.raises(Exception) as exc_info:
@@ -123,7 +123,7 @@ class TestOllamaClientPost:
             mock_client.post = AsyncMock(side_effect=httpx.RequestError("Connection refused"))
             mock_client_class.return_value = mock_client
 
-            from mcp_ollama_python.ollama_client import OllamaClient
+            from mcp_server_ollama.ollama_client import OllamaClient
             client = OllamaClient()
 
             with pytest.raises(NetworkError) as exc_info:
@@ -147,7 +147,7 @@ class TestOllamaClientListModels:
             mock_client.get = AsyncMock(return_value=mock_response)
             mock_client_class.return_value = mock_client
 
-            from mcp_ollama_python.ollama_client import OllamaClient
+            from mcp_server_ollama.ollama_client import OllamaClient
             client = OllamaClient()
             result = await client.list()
 
@@ -171,7 +171,7 @@ class TestOllamaClientShowModel:
             mock_client.post = AsyncMock(return_value=mock_response)
             mock_client_class.return_value = mock_client
 
-            from mcp_ollama_python.ollama_client import OllamaClient
+            from mcp_server_ollama.ollama_client import OllamaClient
             client = OllamaClient()
             result = await client.show("llama3.1:latest")
 
@@ -195,7 +195,7 @@ class TestOllamaClientGenerate:
             mock_client.post = AsyncMock(return_value=mock_response)
             mock_client_class.return_value = mock_client
 
-            from mcp_ollama_python.ollama_client import OllamaClient
+            from mcp_server_ollama.ollama_client import OllamaClient
             client = OllamaClient()
             result = await client.generate("llama3.1", "Hello")
 
@@ -214,7 +214,7 @@ class TestOllamaClientGenerate:
             mock_client.post = AsyncMock(return_value=mock_response)
             mock_client_class.return_value = mock_client
 
-            from mcp_ollama_python.ollama_client import OllamaClient
+            from mcp_server_ollama.ollama_client import OllamaClient
             client = OllamaClient()
 
             options = GenerationOptions(temperature=0.7, top_p=0.9)
@@ -240,7 +240,7 @@ class TestOllamaClientChat:
             mock_client.post = AsyncMock(return_value=mock_response)
             mock_client_class.return_value = mock_client
 
-            from mcp_ollama_python.ollama_client import OllamaClient
+            from mcp_server_ollama.ollama_client import OllamaClient
             client = OllamaClient()
 
             messages = [ChatMessage(role=MessageRole.USER, content="Hello")]
@@ -261,7 +261,7 @@ class TestOllamaClientChat:
             mock_client.post = AsyncMock(return_value=mock_response)
             mock_client_class.return_value = mock_client
 
-            from mcp_ollama_python.ollama_client import OllamaClient
+            from mcp_server_ollama.ollama_client import OllamaClient
             client = OllamaClient()
 
             messages = [
@@ -291,7 +291,7 @@ class TestOllamaClientModelManagement:
             mock_client.post = AsyncMock(return_value=mock_response)
             mock_client_class.return_value = mock_client
 
-            from mcp_ollama_python.ollama_client import OllamaClient
+            from mcp_server_ollama.ollama_client import OllamaClient
             client = OllamaClient()
             result = await client.pull("llama3.1")
 
@@ -310,7 +310,7 @@ class TestOllamaClientModelManagement:
             mock_client.request = AsyncMock(return_value=mock_response)
             mock_client_class.return_value = mock_client
 
-            from mcp_ollama_python.ollama_client import OllamaClient
+            from mcp_server_ollama.ollama_client import OllamaClient
             client = OllamaClient()
             result = await client.delete("old-model")
 
@@ -332,7 +332,7 @@ class TestOllamaClientModelManagement:
             mock_client.post = AsyncMock(return_value=mock_response)
             mock_client_class.return_value = mock_client
 
-            from mcp_ollama_python.ollama_client import OllamaClient
+            from mcp_server_ollama.ollama_client import OllamaClient
             client = OllamaClient()
             result = await client.copy("source-model", "dest-model")
 
@@ -353,7 +353,7 @@ class TestOllamaClientModelManagement:
             mock_client.get = AsyncMock(return_value=mock_response)
             mock_client_class.return_value = mock_client
 
-            from mcp_ollama_python.ollama_client import OllamaClient
+            from mcp_server_ollama.ollama_client import OllamaClient
             client = OllamaClient()
             result = await client.ps()
 
@@ -376,7 +376,7 @@ class TestOllamaClientEmbeddings:
             mock_client.post = AsyncMock(return_value=mock_response)
             mock_client_class.return_value = mock_client
 
-            from mcp_ollama_python.ollama_client import OllamaClient
+            from mcp_server_ollama.ollama_client import OllamaClient
             client = OllamaClient()
             result = await client.embed("nomic-embed-text", "Hello world")
 
@@ -400,7 +400,7 @@ class TestOllamaClientEmbeddings:
             mock_client.post = AsyncMock(return_value=mock_response)
             mock_client_class.return_value = mock_client
 
-            from mcp_ollama_python.ollama_client import OllamaClient
+            from mcp_server_ollama.ollama_client import OllamaClient
             client = OllamaClient()
             result = await client.embed("nomic-embed-text", ["Text 1", "Text 2"])
 

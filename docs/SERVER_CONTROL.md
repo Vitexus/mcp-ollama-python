@@ -28,10 +28,10 @@ Run the server directly (blocks terminal):
 
 ```bash
 # Using Poetry
-py -m poetry run mcp-ollama-python
+py -m poetry run mcp-server-ollama
 
 # Or directly with Python
-python -m mcp_ollama_python
+python -m mcp_server_ollama
 
 # Stop with Ctrl+C
 ```
@@ -41,7 +41,7 @@ python -m mcp_ollama_python
 Control the server from Python code:
 
 ```python
-from mcp_ollama_python.main import run, stop
+from mcp_server_ollama.main import run, stop
 import threading
 
 # Start server in background thread
@@ -115,7 +115,7 @@ Add to your Windsurf MCP settings (`.windsurf/mcp_config.json`):
   "mcpServers": {
     "ollama": {
       "command": "py",
-      "args": ["-m", "poetry", "run", "mcp-ollama-python"],
+      "args": ["-m", "poetry", "run", "mcp-server-ollama"],
       "cwd": "C:\myCode/gitHub/mcp-ollama-python"
     }
   }
@@ -152,7 +152,7 @@ The server uses stdio, not ports, so this shouldn't be an issue.
 **Force stop:**
 ```bash
 # Find the process
-ps aux | grep mcp-ollama-python
+ps aux | grep mcp-server-ollama
 
 # Kill it (replace PID)
 kill -9 <PID>
@@ -190,7 +190,7 @@ After=network.target
 Type=simple
 User=your-user
 WorkingDirectory=/path/to/mcp-ollama-python
-ExecStart=/usr/bin/python3 -m mcp_ollama_python
+ExecStart=/usr/bin/python3 -m mcp_server_ollama
 Restart=on-failure
 RestartSec=5
 
@@ -233,7 +233,7 @@ Redirect output to log file:
 
 ```bash
 # Start with logging
-python -m mcp_ollama_python > server.log 2>&1 &
+python -m mcp_server_ollama > server.log 2>&1 &
 
 # View logs
 tail -f server.log

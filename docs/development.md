@@ -1,17 +1,17 @@
 # Development
 
-This guide is for contributors who want to work on the `mcp-ollama-python` codebase itself. If you just want to **use** the server, see [Installation](installation.md).
+This guide is for contributors who want to work on the `mcp-server-ollama` codebase itself. If you just want to **use** the server, see [Installation](installation.md).
 
 ## Dev Setup
 
 ```bash
 # Clone and install with all dependency groups
 git clone https://github.com/pblagoje/mcp-ollama-python.git
-cd mcp-ollama-python
+cd mcp-server-ollama
 py -m poetry install
 
 # Run the server locally
-py -m poetry run mcp-ollama-python
+py -m poetry run mcp-server-ollama
 ```
 
 ## Testing
@@ -37,10 +37,10 @@ py -m poetry run pre-commit run --all-files
 ## Building the Windows Executable
 
 ```bash
-poetry run pyinstaller mcp-ollama-python.spec --clean --distpath bin
+poetry run pyinstaller mcp-server-ollama.spec --clean --distpath bin
 ```
 
-The spec file reads the version from `pyproject.toml` and produces an EXE named like `mcp-ollama-python-1.0.3-win11-x64.exe`.
+The spec file reads the version from `pyproject.toml` and produces an EXE named like `mcp-server-ollama-1.0.3-win11-x64.exe`.
 
 ## Building the Docs
 

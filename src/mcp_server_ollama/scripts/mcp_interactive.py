@@ -19,9 +19,9 @@ from typing import Dict, Optional
 
 import psutil
 
-from mcp_ollama_python.ollama_client import OllamaClient
-from mcp_ollama_python.server import OllamaMCPServer
-from mcp_ollama_python.security import validate_env_var_key, validate_ollama_host
+from mcp_server_ollama.ollama_client import OllamaClient
+from mcp_server_ollama.server import OllamaMCPServer
+from mcp_server_ollama.security import validate_env_var_key, validate_ollama_host
 
 # Data directory in user home
 DATA_DIR = Path.home() / ".mcp-ollama-python"
@@ -88,7 +88,7 @@ def is_mcp_server_process(pid: int) -> bool:
         cmdline_str = " ".join(cmdline).lower()
         is_python = "python" in cmdline_str or "python.exe" in cmdline_str
         is_mcp = (
-            "mcp_ollama_python" in cmdline_str or "mcp-ollama-python" in cmdline_str
+            "mcp_server_ollama" in cmdline_str or "mcp-ollama-python" in cmdline_str
         )
         is_poetry_wrapper = "poetry" in cmdline_str and is_mcp
 
@@ -390,10 +390,10 @@ class MCPInteractive:
                 # Use the current Python interpreter
                 python_exe = sys.executable
                 print(f"  Using Python: {python_exe}")
-                print(f"  Command: {python_exe} -m mcp_ollama_python")
+                print(f"  Command: {python_exe} -m mcp_server_ollama")
 
                 process = subprocess.Popen(
-                    [python_exe, "-m", "mcp_ollama_python"],
+                    [python_exe, "-m", "mcp_server_ollama"],
                     stdin=stdin_read,
                     stdout=log_file,
                     stderr=error_log_file,
@@ -524,7 +524,7 @@ class MCPInteractive:
         print("\nInitializing server to discover tools...")
 
         try:
-            from mcp_ollama_python.autoloader import discover_tools_with_handlers
+            from mcp_server_ollama.autoloader import discover_tools_with_handlers
 
             async def get_tools():
                 registry = await discover_tools_with_handlers()

@@ -6,8 +6,8 @@ import json
 
 import pytest
 
-from mcp_ollama_python.models import ResponseFormat
-from mcp_ollama_python.response_formatter import (
+from mcp_server_ollama.models import ResponseFormat
+from mcp_server_ollama.response_formatter import (
     _format_object_entry,
     array_to_markdown_table,
     format_response,

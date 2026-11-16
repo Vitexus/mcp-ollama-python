@@ -1,7 +1,7 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: mcp-ollama-python
 Upstream-Contact: Pedja Blagojevic <pb@internetics.net>
-Source: https://github.com/pblagoje/mcp-ollama-python
+Source: https://github.com/pblagoje/mcp-server-ollama
 #
 # Please double check copyright with the licensecheck(1) command.
 
@@ -29,7 +29,7 @@ Files:     .flake8
            docs/vscode.md
            docs/windsurf.md
            examples/get_spanish_poem.py
-           mcp-ollama-python.spec
+           mcp-server-ollama.spec
            mcp.json
            mkdocs.yml
            poetry.lock

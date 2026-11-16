@@ -20,8 +20,8 @@ logger = logging.getLogger(__name__)
 
 # Use absolute imports so PyInstaller/standalone execution works even when __package__ is not set
 try:
-    from mcp_ollama_python.server import OllamaMCPServer
-    from mcp_ollama_python.ollama_client import OllamaClient
+    from mcp_server_ollama.server import OllamaMCPServer
+    from mcp_server_ollama.ollama_client import OllamaClient
 except ImportError:
     from .server import OllamaMCPServer
     from .ollama_client import OllamaClient
@@ -62,7 +62,7 @@ _shutdown_event: Optional[asyncio.Event] = None
 
 def _package_version() -> str:
     try:
-        return version("mcp-ollama-python")
+        return version("mcp-server-ollama")
     except PackageNotFoundError:
         return ""
 
@@ -355,12 +355,12 @@ async def main() -> None:
 
 def run() -> None:
     """
-    Entry point for the mcp-ollama-python command.
+    Entry point for the mcp-server-ollama command.
 
     Runs the async main function and handles shutdown gracefully.
     """
     try:
-        logger.info("Starting mcp-ollama-python")
+        logger.info("Starting mcp-server-ollama")
         asyncio.run(main())
     except KeyboardInterrupt:
         logger.info("Shutdown complete")

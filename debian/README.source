@@ -1,4 +1,4 @@
-mcp-ollama-python for Debian
+mcp-server-ollama for Debian
 =============================
 
 Packaging Notes
@@ -8,7 +8,7 @@ This package uses pyproject.toml for build configuration and pybuild-plugin-pypr
 for building. The source format is 3.0 (native).
 
 Full source code and build information is available at:
-  https://github.com/pblagoje/mcp-ollama-python
+  https://github.com/pblagoje/mcp-server-ollama
 
 Building
 ========

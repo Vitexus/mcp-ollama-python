@@ -1,4 +1,4 @@
-Source: mcp-ollama-python
+Source: mcp-server-ollama
 Section: utils
 Priority: optional
 Maintainer: Vítězslav Dvořák <info@vitexsoftware.cz>
@@ -22,7 +22,7 @@ Rules-Requires-Root: no
 Vcs-Git: https://github.com/pblagoje/mcp-ollama-python.git
 Vcs-Browser: https://github.com/pblagoje/mcp-ollama-python
 
-Package: mcp-ollama-python
+Package: mcp-server-ollama
 Architecture: all
 Multi-Arch: foreign
 Depends:
@@ -32,8 +32,12 @@ Depends:
  python3-pydantic (>= 2.7),
  python3-rich (>= 13.7),
  python3-psutil (>= 7.0.0),
+ python3-mcp (>= 1:2.0.0),
+Provides: mcp-ollama-python
+Replaces: mcp-ollama-python (<< 1.1.0~)
+Breaks: mcp-ollama-python (<< 1.1.0~)
 Description: Model Context Protocol server for local Ollama models
- mcp-ollama-python is a Python MCP server that exposes local Ollama
+ mcp-server-ollama is a Python MCP server that exposes local Ollama
  models as tools for AI assistants (Windsurf, VS Code, Claude Desktop).
  .
  Provides utilities for:
@@ -44,3 +48,13 @@ Description: Model Context Protocol server for local Ollama models
   * Running model inspection and process control
  .
  All operations run locally without cloud APIs.
+
+Package: mcprack-mcp-server-ollama
+Architecture: all
+Depends: ${misc:Depends},
+ mcprack (>= 1.6.0),
+ mcp-server-ollama (= ${binary:Version}),
+Description: Registers Ollama MCP server into mcprack catalog
+ Companion package for mcp-server-ollama. Installing it registers
+ the mcp-server-ollama binary as an available MCP server in the local
+ mcprack instance; removing it unregisters it again.

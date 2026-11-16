@@ -74,7 +74,7 @@ def is_mcp_server_process(pid: int) -> bool:
             return False
 
         cmdline_str = " ".join(cmdline).lower()
-        is_mcp = "python" in cmdline_str and "mcp_ollama_python" in cmdline_str
+        is_mcp = "python" in cmdline_str and "mcp_server_ollama" in cmdline_str
         logger.debug("PID %d is MCP server: %s", pid, is_mcp)
         return is_mcp
     except psutil.NoSuchProcess:
@@ -180,9 +180,9 @@ def start_server() -> int:
     cleanup_stale_pipe_files()
 
     try:
-        logger.debug("Starting subprocess: %s -m mcp_ollama_python", sys.executable)
+        logger.debug("Starting subprocess: %s -m mcp_server_ollama", sys.executable)
         process = subprocess.Popen(
-            [sys.executable, "-m", "mcp_ollama_python"],
+            [sys.executable, "-m", "mcp_server_ollama"],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             start_new_session=True,

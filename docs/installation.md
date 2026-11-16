@@ -8,7 +8,7 @@
 ## Install from PyPI
 
 ```bash
-pip install mcp-ollama-python
+pip install mcp-server-ollama
 ```
 
 That's it. Your MCP client (Windsurf, VS Code, etc.) will start the server automatically — you don't need to run it manually.
@@ -29,7 +29,7 @@ Add to **`%USERPROFILE%\.codeium\windsurf\mcp_config.json`** (Windows) or **`~/.
   "mcpServers": {
     "ollama": {
       "command": "py",
-      "args": ["-m", "mcp_ollama_python"],
+      "args": ["-m", "mcp_server_ollama"],
       "disabled": false
     }
   }
@@ -49,7 +49,7 @@ Add to your MCP settings:
   "mcpServers": {
     "ollama": {
       "command": "py",
-      "args": ["-m", "mcp_ollama_python"],
+      "args": ["-m", "mcp_server_ollama"],
       "disabled": false
     }
   }
@@ -69,7 +69,7 @@ If you prefer a standalone `.exe` (no Python required), download it from the [Re
 curl http://localhost:11434/api/tags
 
 # Verify the module is installed
-py -m mcp_ollama_python --help
+py -m mcp_server_ollama --help
 ```
 
 ## Next Steps

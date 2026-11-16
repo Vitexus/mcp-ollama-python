@@ -1,6 +1,6 @@
 # Companion VS Code Extension
 
-This MCP server (`mcp-ollama-python`) is the **backend**. For day-to-day use in Visual Studio Code, install the companion extension:
+This MCP server (`mcp-server-ollama`) is the **backend**. For day-to-day use in Visual Studio Code, install the companion extension:
 
 | | |
 |---|---|
@@ -18,7 +18,7 @@ This MCP server (`mcp-ollama-python`) is the **backend**. For day-to-day use in 
 
 ## What you still need
 
-1. `pip install mcp-ollama-python` (this package)
+1. `pip install mcp-server-ollama` (this package)
 2. [Ollama](https://ollama.ai/) running
 3. The extension installed in VS Code / compatible editors that support VS Code extensions
 
@@ -31,4 +31,4 @@ You can still use this server with any MCP client by adding it to MCP config. Se
 ## Issue tracker
 
 - Extension UI / VS Code commands → [mcp-ollama-extension issues](https://github.com/pblagoje/mcp-ollama-extension/issues)
-- MCP tools / Python server → [mcp-ollama-python issues](https://github.com/pblagoje/mcp-ollama-python/issues)
+- MCP tools / Python server → [mcp-server-ollama issues](https://github.com/pblagoje/mcp-ollama-python/issues)

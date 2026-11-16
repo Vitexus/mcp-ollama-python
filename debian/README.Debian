@@ -1,14 +1,14 @@
-mcp-ollama-python for Debian
+mcp-server-ollama for Debian
 ============================
 
-This is a Debian/Ubuntu package for mcp-ollama-python, a Model Context
+This is a Debian/Ubuntu package for mcp-server-ollama, a Model Context
 Protocol (MCP) server that exposes local Ollama models as tools for AI
 assistants.
 
 PREREQUISITES
 =============
 
-Before using mcp-ollama-python, ensure you have:
+Before using mcp-server-ollama, ensure you have:
 
 1. Ollama installed and running (https://ollama.ai)
    Start with: ollama serve
@@ -22,7 +22,7 @@ INSTALLATION
 
 After package installation, the following commands are available:
 
-  mcp-ollama-python      # Main MCP server
+  mcp-server-ollama      # Main MCP server
   mcp-interactive        # Interactive testing interface
   mcp-server-control     # Server control utility
 
@@ -35,7 +35,7 @@ USAGE WITH AI ASSISTANTS
    {
      "mcpServers": {
        "ollama": {
-         "command": "mcp-ollama-python",
+         "command": "mcp-server-ollama",
          "env": {"OLLAMA_HOST": "http://localhost:11434"}
        }
      }
@@ -47,7 +47,7 @@ USAGE WITH AI ASSISTANTS
    {
      "mcpServers": {
        "ollama": {
-         "command": "mcp-ollama-python",
+         "command": "mcp-server-ollama",
          "env": {"OLLAMA_HOST": "http://localhost:11434"}
        }
      }
@@ -106,7 +106,7 @@ Create /etc/systemd/user/mcp-ollama.service:
   
   [Service]
   Type=simple
-  ExecStart=/usr/bin/mcp-ollama-python
+  ExecStart=/usr/bin/mcp-server-ollama
   Restart=on-failure
   RestartSec=10
   Environment="OLLAMA_HOST=http://localhost:11434"
@@ -144,13 +144,13 @@ A: Check OLLAMA_TIMEOUT setting; increase if needed
 DOCUMENTATION
 ==============
 
-Full documentation: https://pblagoje.github.io/mcp-ollama-python/
+Full documentation: https://pblagoje.github.io/mcp-server-ollama/
 
-Source code: https://github.com/pblagoje/mcp-ollama-python
+Source code: https://github.com/pblagoje/mcp-server-ollama
 
 SUPPORT
 =======
 
 For issues, feature requests, or questions:
-- GitHub Issues: https://github.com/pblagoje/mcp-ollama-python/issues
-- GitHub Discussions: https://github.com/pblagoje/mcp-ollama-python/discussions
+- GitHub Issues: https://github.com/pblagoje/mcp-server-ollama/issues
+- GitHub Discussions: https://github.com/pblagoje/mcp-server-ollama/discussions

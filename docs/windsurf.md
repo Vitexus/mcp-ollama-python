@@ -14,7 +14,7 @@ Add the Ollama MCP server to your Windsurf MCP configuration:
   "mcpServers": {
     "ollama": {
       "command": "py",
-      "args": ["-m", "mcp_ollama_python"],
+      "args": ["-m", "mcp_server_ollama"],
       "disabled": false,
       "env": {}
     },
@@ -34,7 +34,7 @@ Add the Ollama MCP server to your Windsurf MCP configuration:
   "mcpServers": {
     "ollama": {
       "command": "py",
-      "args": ["-m", "poetry", "run", "mcp-ollama-python"],
+      "args": ["-m", "poetry", "run", "mcp-server-ollama"],
       "cwd": "d:/path/to/mcp-ollama-python",
       "disabled": false,
       "env": {}
@@ -63,7 +63,7 @@ auto_execution_mode: 2
 
 # MCP Tools (mcp-ollama)
 
-Available tools exposed by the local `mcp-ollama-python` server:
+Available tools exposed by the local `mcp-server-ollama` server:
 
 - **ollama_chat** – Interactive chat with models (multi-turn, tool-calling, structured outputs)
 - **ollama_list** – List installed models
@@ -80,7 +80,7 @@ Available tools exposed by the local `mcp-ollama-python` server:
 2) Or run the MCP tool via the chat with: `/tools`
 
 ## Notes
-- Server: local Ollama via `mcp-ollama-python`
+- Server: local Ollama via `mcp-server-ollama`
 - Formats: most tools accept `format` = `json` (default) or `markdown`
 ```
 

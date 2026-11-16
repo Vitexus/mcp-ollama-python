@@ -5,7 +5,7 @@
 This server uses a **hot-swap autoloader** pattern for tool discovery:
 
 ```
-src/mcp_ollama_python/
+src/mcp_server_ollama/
 ├── main.py              # Entry point
 ├── server.py            # MCP server creation
 ├── autoloader.py        # Dynamic tool discovery
@@ -25,13 +25,13 @@ src/mcp_ollama_python/
 
 **Key Benefits:**
 
-- Add new tools by dropping files in `src/mcp_ollama_python/tools/`
+- Add new tools by dropping files in `src/mcp_server_ollama/tools/`
 - Zero server code changes required
 - Each tool is independently testable
 
 ## Adding a New Tool
 
-1. Create `src/mcp_ollama_python/tools/your_tool.py`:
+1. Create `src/mcp_server_ollama/tools/your_tool.py`:
 
 ```python
 from typing import Dict, Any
@@ -64,10 +64,10 @@ tool_definition = ToolDefinition(
 
 ## Scripts Package
 
-Management scripts live in `src/mcp_ollama_python/scripts/`:
+Management scripts live in `src/mcp_server_ollama/scripts/`:
 
 ```
-src/mcp_ollama_python/scripts/
+src/mcp_server_ollama/scripts/
 ├── __init__.py          # Package marker
 ├── mcp_interactive.py   # Interactive menu manager
 └── server_control.py    # CLI server control
@@ -75,5 +75,5 @@ src/mcp_ollama_python/scripts/
 
 These are exposed as Poetry entry points:
 
-- `mcp-interactive` → `mcp_ollama_python.scripts.mcp_interactive:main`
-- `mcp-server-control` → `mcp_ollama_python.scripts.server_control:main`
+- `mcp-interactive` → `mcp_server_ollama.scripts.mcp_interactive:main`
+- `mcp-server-control` → `mcp_server_ollama.scripts.server_control:main`

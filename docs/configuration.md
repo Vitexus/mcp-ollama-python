@@ -16,7 +16,7 @@ See [Security](SECURITY.md) for the full threat model and allowlists.
 
 ```bash
 export OLLAMA_HOST="http://localhost:11434"
-py -m poetry run mcp-ollama-python
+py -m poetry run mcp-server-ollama
 ```
 
 ### Remote or LAN Ollama
@@ -24,7 +24,7 @@ py -m poetry run mcp-ollama-python
 ```bash
 export OLLAMA_ALLOW_REMOTE_HOST=1
 export OLLAMA_HOST="http://192.168.1.50:11434"
-py -m poetry run mcp-ollama-python
+py -m poetry run mcp-server-ollama
 ```
 
 ### Enable code execution (opt-in)
@@ -33,7 +33,7 @@ py -m poetry run mcp-ollama-python
 
 ```bash
 export OLLAMA_EXECUTE_ENABLED=1
-py -m poetry run mcp-ollama-python
+py -m poetry run mcp-server-ollama
 ```
 
 Shell/bash execution is not supported. Use only on trusted machines.
@@ -43,14 +43,14 @@ Shell/bash execution is not supported. Use only on trusted machines.
 ```bash
 export OLLAMA_HOST="https://ollama.com"
 export OLLAMA_API_KEY="your-ollama-cloud-api-key"
-py -m poetry run mcp-ollama-python
+py -m poetry run mcp-server-ollama
 ```
 
 ## MCP Model Configuration
 
 The server exposes local Ollama models through MCP. Configure available models in `mcp.json`:
 
-**`mcp-ollama-python/mcp.json`**
+**`mcp-server-ollama/mcp.json`**
 ```json
 {
   "capabilities": {

@@ -1,5 +1,5 @@
 """
-Entry point for running as: python -m mcp_ollama_python
+Entry point for running as: python -m mcp_server_ollama
 
 This module serves as the command-line interface for the package.
 """

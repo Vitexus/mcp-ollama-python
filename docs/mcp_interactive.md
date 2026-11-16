@@ -44,7 +44,7 @@
 |------|-----------------|------------------|
 | **Python** | `3.10` or newer | Project code targets Python 3.10+. |
 | **Poetry** | `>=1.6` | Handles the project's virtual environment and dependencies. |
-| **Ollama** | Latest stable | Required for the `mcp_ollama_python` integration. |
+| **Ollama** | Latest stable | Required for the `mcp_server_ollama` integration. |
 
 > **Tip:** If you don't have Poetry installed, run
 > ```bash
@@ -69,7 +69,7 @@ No `requirements.txt` is needed – Poetry takes care of resolving and pinning t
 ```bash
 # 1. Clone the repository (if you haven't already)
 git clone https://github.com/your-repo/mcp-ollama-python.git
-cd mcp-ollama-python
+cd mcp-server-ollama
 
 # 2. (Optional) Verify that you are on the right Python version
 python --version   # Should print 3.10.x or newer
@@ -142,7 +142,7 @@ Displays comprehensive server and Ollama connection information:
 SERVER STATUS
 ============================================================
 ✓ Server is RUNNING (PID: 12345)
-  PID File: C:\myCode\gitHub\mcp-ollama-python\tmp\.mcp_ollama_server.pid
+  PID File: C:\myCode\gitHub\mcp-server-ollama\tmp\.mcp_ollama_server.pid
 
 Ollama Connection:
   Host: http://127.0.0.1:11434
@@ -309,7 +309,7 @@ Cleanly exits the application.
 The script manages files in organized directories:
 
 ```
-mcp-ollama-python/
+mcp-server-ollama/
 ├── scripts/
 │   └── mcp_interactive.py          # Main script
 ├── tmp/                             # Temporary files (auto-created)
@@ -320,7 +320,7 @@ mcp-ollama-python/
 │   ├── mcp_ollama_server.log       # Standard output
 │   └── mcp_ollama_server_error.log # Error output
 └── src/
-    └── mcp_ollama_python/           # MCP server package
+    └── mcp_server_ollama/           # MCP server package
 ```
 
 ### Directory Management
@@ -424,7 +424,7 @@ MCP (Model Context Protocol) is a standardized protocol...
 Select option (1-9): 4
 
 # View log content
-Log file: C:\myCode\gitHub\mcp-ollama-python\logs\mcp_ollama_server.log
+Log file: C:\myCode\gitHub\mcp-server-ollama\logs\mcp_ollama_server.log
 
 Log content:
 Starting Ollama MCP Server...
@@ -442,7 +442,7 @@ File Information:
 
 **PID Validation**:
 - Uses `psutil.Process()` to verify process existence
-- Checks command line for `mcp_ollama_python` to confirm identity
+- Checks command line for `mcp_server_ollama` to confirm identity
 - Automatically cleans up stale PID files
 
 **Process Creation**:
@@ -452,7 +452,7 @@ creationflags = subprocess.CREATE_NEW_PROCESS_GROUP | subprocess.CREATE_NO_WINDO
 
 # Unix: start_new_session=True
 process = subprocess.Popen(
-    [sys.executable, "-m", "mcp_ollama_python"],
+    [sys.executable, "-m", "mcp_server_ollama"],
     stdin=stdin_read,
     stdout=log_file,
     stderr=error_log_file,
@@ -587,7 +587,7 @@ asyncio.run(execute_command())
 
 For detailed debugging:
 
-1. **Check Process**: `ps aux | grep mcp_ollama_python` (Unix) or Task Manager (Windows)
+1. **Check Process**: `ps aux | grep mcp_server_ollama` (Unix) or Task Manager (Windows)
 2. **Manual Cleanup**: Delete files in `tmp/` directory
 3. **View Raw Logs**: Open log files directly in text editor
 4. **Test Ollama**: `curl http://localhost:11434/api/tags`
@@ -646,7 +646,7 @@ The MCP server can be used by:
 
 ## License
 
-This script is part of the mcp-ollama-python project. See the main project LICENSE file for details.
+This script is part of the mcp-server-ollama project. See the main project LICENSE file for details.
 
 ## Contributing
 
@@ -656,4 +656,4 @@ Contributions are welcome! Please see the main project CONTRIBUTING.md for guide
 
 **Last Updated**: December 2025
 **Version**: 1.0
-**Maintained By**: mcp-ollama-python contributors
+**Maintained By**: mcp-server-ollama contributors

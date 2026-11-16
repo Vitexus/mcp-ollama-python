@@ -24,7 +24,7 @@ from mcp.types import (  # noqa: E402
 @pytest.mark.asyncio
 async def test_sdk2_server_on_handlers_return_typed_results():
     """Low-level Server accepts on_* handlers and returns SDK 2 result types."""
-    from mcp_ollama_python import main as main_mod
+    from mcp_server_ollama import main as main_mod
 
     backend = MagicMock()
     backend.handle_list_tools = AsyncMock(
@@ -230,7 +230,7 @@ async def test_sdk2_server_on_handlers_return_typed_results():
 
 
 def test_prompt_helpers():
-    from mcp_ollama_python import main as main_mod
+    from mcp_server_ollama import main as main_mod
 
     args = main_mod._prompt_arguments(
         [{"name": "language", "description": "lang", "required": True}, {"skip": True}]

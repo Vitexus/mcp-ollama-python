@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Test runner for mcp-ollama-python
+Test runner for mcp-server-ollama
 
 Usage:
     python run_tests.py              # Run all tests

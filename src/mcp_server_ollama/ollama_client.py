@@ -9,14 +9,14 @@ from typing import Any, Dict, List, Optional, Union
 import httpx
 
 try:
-    from mcp_ollama_python.models import (
+    from mcp_server_ollama.models import (
         GenerationOptions,
         ChatMessage,
         Tool,
         OllamaError,
         NetworkError,
     )
-    from mcp_ollama_python.security import validate_model_name, validate_ollama_host
+    from mcp_server_ollama.security import validate_model_name, validate_ollama_host
 except ImportError:
     from .models import GenerationOptions, ChatMessage, Tool, OllamaError, NetworkError
     from .security import validate_model_name, validate_ollama_host

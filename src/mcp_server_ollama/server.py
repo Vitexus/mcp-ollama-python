@@ -8,9 +8,9 @@ import logging
 from typing import Any, Dict, List, Optional
 
 try:
-    from mcp_ollama_python.ollama_client import OllamaClient
-    from mcp_ollama_python.autoloader import discover_tools_with_handlers, ToolRegistry
-    from mcp_ollama_python.models import ResponseFormat
+    from mcp_server_ollama.ollama_client import OllamaClient
+    from mcp_server_ollama.autoloader import discover_tools_with_handlers, ToolRegistry
+    from mcp_server_ollama.models import ResponseFormat
 except ImportError:
     from .ollama_client import OllamaClient
     from .autoloader import discover_tools_with_handlers, ToolRegistry
