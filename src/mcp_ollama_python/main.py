@@ -1,12 +1,15 @@
 """
-Ollama MCP Server - Main entry point
+Ollama MCP Server - Main entry point (MCP Python SDK 2.x).
 """
+
+from __future__ import annotations
 
 import asyncio
 import logging
 import signal
 import sys
-from typing import Optional
+from importlib.metadata import PackageNotFoundError, version
+from typing import Any, Optional
 
 # Configure logging
 logging.basicConfig(
@@ -24,24 +27,44 @@ except ImportError:
     from .ollama_client import OllamaClient
 
 try:
-    from mcp.server import Server
-    from mcp.types import (
-        TextContent,
-        Tool as MCPTool,
-        Resource,
-        Prompt,
-    )
+    from mcp.server import Server, ServerRequestContext
     from mcp.server.stdio import stdio_server
+    from mcp.types import (
+        CallToolRequestParams,
+        CallToolResult,
+        GetPromptRequestParams,
+        GetPromptResult,
+        ListPromptsResult,
+        ListResourcesResult,
+        ListToolsResult,
+        PaginatedRequestParams,
+        Prompt,
+        PromptArgument,
+        PromptMessage,
+        ReadResourceRequestParams,
+        ReadResourceResult,
+        Resource,
+        TextContent,
+        TextResourceContents,
+        Tool,
+    )
 except ImportError as e:
     logger.error("MCP package import failed: %s", e)
     print(f"Error: mcp package import failed: {e}")
-    print("Please install it with: pip install mcp")
+    print("Please install it with: pip install 'mcp>=2.0.0,<3.0.0'")
     sys.exit(1)
 
 
 # Global server instance for signal handling
 _server_instance: Optional[Server] = None
 _shutdown_event: Optional[asyncio.Event] = None
+
+
+def _package_version() -> str:
+    try:
+        return version("mcp-ollama-python")
+    except PackageNotFoundError:
+        return ""
 
 
 def safe_print(*args, **kwargs) -> None:
@@ -70,6 +93,48 @@ def signal_handler(signum: int, frame) -> None:
     # Only perform signal-safe operations - set the shutdown event
     if _shutdown_event:
         _shutdown_event.set()
+
+
+def _prompt_arguments(raw: Any) -> list[PromptArgument]:
+    """Convert server prompt argument dicts to MCP PromptArgument models."""
+    if not isinstance(raw, list):
+        return []
+    out: list[PromptArgument] = []
+    for item in raw:
+        if not isinstance(item, dict):
+            continue
+        name = item.get("name")
+        if not name:
+            continue
+        out.append(
+            PromptArgument(
+                name=str(name),
+                description=item.get("description"),
+                required=bool(item.get("required", False)),
+            )
+        )
+    return out
+
+
+def _prompt_messages(raw_messages: Any) -> list[PromptMessage]:
+    """Convert get_prompt message dicts to MCP PromptMessage models."""
+    if not isinstance(raw_messages, list):
+        return []
+    messages: list[PromptMessage] = []
+    for item in raw_messages:
+        if not isinstance(item, dict):
+            continue
+        role = item.get("role") or "user"
+        content = item.get("content") or {}
+        text = ""
+        if isinstance(content, dict):
+            text = str(content.get("text") or "")
+        elif isinstance(content, str):
+            text = content
+        messages.append(
+            PromptMessage(role=role, content=TextContent(type="text", text=text))
+        )
+    return messages
 
 
 async def main() -> None:
@@ -101,155 +166,147 @@ async def main() -> None:
     # Initialize our MCP server
     server = OllamaMCPServer(ollama_client)
 
-    # Create MCP server instance
-    mcp_server = Server("ollama-mcp")
-    _server_instance = mcp_server
-
-    safe_print("Starting Ollama MCP Server...")
-    safe_print("Press Ctrl+C to stop the server")
-
-    @mcp_server.list_tools()
-    async def handle_list_tools() -> list[MCPTool]:
-        """
-        Handle list_tools request.
-
-        Returns:
-            List of available MCP tools
-        """
+    async def handle_list_tools(
+        ctx: ServerRequestContext, params: PaginatedRequestParams | None
+    ) -> ListToolsResult:
+        """Handle list_tools request."""
+        del ctx, params  # unused; required by MCP SDK 2 handler signature
         try:
             result = await server.handle_list_tools()
-            tools = []
-            for tool_data in result["tools"]:
-                tools.append(
-                    MCPTool(
-                        name=tool_data["name"],
-                        description=tool_data["description"],
-                        inputSchema=tool_data["inputSchema"],
-                    )
+            tools = [
+                Tool(
+                    name=tool_data["name"],
+                    description=tool_data["description"],
+                    input_schema=tool_data["inputSchema"],
                 )
+                for tool_data in result["tools"]
+            ]
             logger.debug("Listed %d tools", len(tools))
-            return tools
+            return ListToolsResult(tools=tools)
         except Exception as e:
             logger.error("Error listing tools: %s", e)
             raise
 
-    @mcp_server.call_tool()
-    async def handle_call_tool(name: str, arguments: dict) -> list[TextContent]:
-        """
-        Handle call_tool request.
-
-        Args:
-            name: Name of the tool to call
-            arguments: Arguments for the tool
-
-        Returns:
-            List of text content responses
-        """
+    async def handle_call_tool(
+        ctx: ServerRequestContext, params: CallToolRequestParams
+    ) -> CallToolResult:
+        """Handle call_tool request."""
+        del ctx
         try:
-            logger.debug("Calling tool: %s", name)
-            result = await server.handle_call_tool(name, arguments)
+            logger.debug("Calling tool: %s", params.name)
+            result = await server.handle_call_tool(params.name, params.arguments or {})
 
-            content = []
-            for item in result["content"]:
-                if item["type"] == "text":
-                    content.append(TextContent(type="text", text=item["text"]))
-
-            return content
+            content = [
+                TextContent(type="text", text=item["text"])
+                for item in result.get("content") or []
+                if item.get("type") == "text" and "text" in item
+            ]
+            return CallToolResult(
+                content=content,
+                structured_content=result.get("structuredContent"),
+                is_error=bool(result.get("isError", False)),
+            )
         except Exception as e:
-            logger.error("Error calling tool %s: %s", name, e)
+            logger.error("Error calling tool %s: %s", params.name, e)
             raise
 
-    @mcp_server.list_resources()
-    async def handle_list_resources() -> list[Resource]:
-        """
-        Handle list_resources request.
-
-        Returns:
-            List of available resources
-        """
+    async def handle_list_resources(
+        ctx: ServerRequestContext, params: PaginatedRequestParams | None
+    ) -> ListResourcesResult:
+        """Handle list_resources request."""
+        del ctx, params
         try:
             result = await server.handle_list_resources()
-            resources = []
-            for resource_data in result["resources"]:
-                resources.append(
-                    Resource(
-                        uri=resource_data["uri"],
-                        name=resource_data["name"],
-                        description=resource_data.get("description"),
-                        mimeType=resource_data.get("mimeType", "text/plain"),
-                    )
+            resources = [
+                Resource(
+                    uri=resource_data["uri"],
+                    name=resource_data["name"],
+                    description=resource_data.get("description"),
+                    mime_type=resource_data.get("mimeType", "text/plain"),
                 )
+                for resource_data in result["resources"]
+            ]
             logger.debug("Listed %d resources", len(resources))
-            return resources
+            return ListResourcesResult(resources=resources)
         except Exception as e:
             logger.error("Error listing resources: %s", e)
             raise
 
-    @mcp_server.read_resource()
-    async def handle_read_resource(uri: str) -> str:
-        """
-        Handle read_resource request.
-
-        Args:
-            uri: URI of the resource to read
-
-        Returns:
-            Resource content as string
-        """
+    async def handle_read_resource(
+        ctx: ServerRequestContext, params: ReadResourceRequestParams
+    ) -> ReadResourceResult:
+        """Handle read_resource request."""
+        del ctx
+        uri = str(params.uri)
         try:
             logger.debug("Reading resource: %s", uri)
             result = await server.handle_read_resource(uri)
-            if result.get("contents"):
-                return result["contents"][0].get("text", "")
-            return ""
+            contents: list[TextResourceContents] = []
+            for item in result.get("contents") or []:
+                contents.append(
+                    TextResourceContents(
+                        uri=str(item.get("uri") or uri),
+                        mime_type=item.get("mimeType", "text/plain"),
+                        text=str(item.get("text") or ""),
+                    )
+                )
+            return ReadResourceResult(contents=contents)
         except Exception as e:
             logger.error("Error reading resource %s: %s", uri, e)
             raise
 
-    @mcp_server.list_prompts()
-    async def handle_list_prompts() -> list[Prompt]:
-        """
-        Handle list_prompts request.
-
-        Returns:
-            List of available prompts
-        """
+    async def handle_list_prompts(
+        ctx: ServerRequestContext, params: PaginatedRequestParams | None
+    ) -> ListPromptsResult:
+        """Handle list_prompts request."""
+        del ctx, params
         try:
             result = await server.handle_list_prompts()
-            prompts = []
-            for prompt_data in result["prompts"]:
-                prompts.append(
-                    Prompt(
-                        name=prompt_data["name"],
-                        description=prompt_data.get("description"),
-                        arguments=prompt_data.get("arguments", []),
-                    )
+            prompts = [
+                Prompt(
+                    name=prompt_data["name"],
+                    description=prompt_data.get("description"),
+                    arguments=_prompt_arguments(prompt_data.get("arguments", [])),
                 )
+                for prompt_data in result["prompts"]
+            ]
             logger.debug("Listed %d prompts", len(prompts))
-            return prompts
+            return ListPromptsResult(prompts=prompts)
         except Exception as e:
             logger.error("Error listing prompts: %s", e)
             raise
 
-    @mcp_server.get_prompt()
-    async def handle_get_prompt(name: str, arguments: Optional[dict] = None) -> dict:
-        """
-        Handle get_prompt request.
-
-        Args:
-            name: Name of the prompt to get
-            arguments: Optional arguments for the prompt
-
-        Returns:
-            Prompt data dictionary
-        """
+    async def handle_get_prompt(
+        ctx: ServerRequestContext, params: GetPromptRequestParams
+    ) -> GetPromptResult:
+        """Handle get_prompt request."""
+        del ctx
         try:
-            logger.debug("Getting prompt: %s", name)
-            result = await server.handle_get_prompt(name, arguments)
-            return result
+            logger.debug("Getting prompt: %s", params.name)
+            result = await server.handle_get_prompt(params.name, params.arguments)
+            return GetPromptResult(
+                description=result.get("description"),
+                messages=_prompt_messages(result.get("messages")),
+            )
         except Exception as e:
-            logger.error("Error getting prompt %s: %s", name, e)
+            logger.error("Error getting prompt %s: %s", params.name, e)
             raise
+
+    # Create MCP server instance (SDK 2: handlers via on_* constructor kwargs)
+    mcp_server = Server(
+        "ollama-mcp",
+        version=_package_version(),
+        on_list_tools=handle_list_tools,
+        on_call_tool=handle_call_tool,
+        on_list_resources=handle_list_resources,
+        on_read_resource=handle_read_resource,
+        on_list_prompts=handle_list_prompts,
+        on_get_prompt=handle_get_prompt,
+    )
+    _server_instance = mcp_server
+
+    safe_print("Starting Ollama MCP Server...")
+    safe_print("Press Ctrl+C to stop the server")
 
     # Run the server with graceful shutdown support
     try:
